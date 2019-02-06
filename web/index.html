@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script>
+            
+            function muestraTodos(){
+                
+                if(window.XMLHttpRequest){
+                    peticion_http=new XMLHttpRequest();
+                }else if(window.ActiveXObject){
+                    peticion_http=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                
+                peticion_http.onreadystatechange=muestraContenido;
+                
+                peticion_http.open('GET','./libros.xml',true);
+                peticion_http.send(null);
+            }
+            
+            function muestraContenido(){
+                
+                var titulo="";
+                var txt="";
+                var longitud=0;
+                
+                if(peticion_http.readyState==4){
+                    if(peticion_http.status==200){
+                        
+                        var documento_xml=peticion_http.responseXML;
+                        var x=documento_xml.getElementsByTagName("Titulo");
+                        
+                        longitud=x.length;
+                        
+                        for(var x=0;x<longitud;x++){
+                            titulo=documento_xml.getElementsByTagName("Titulo")[x].firstChild.nodeValue;
+                            txt=txt+titulo+"<br>";
+                        }
+                        var txt2=txt+"<br>";
+                        document.getElementById("respuesta").innerHTML=txt2;
+                    }
+                    
+                }
+                
+            }
+            
+            function muestraInfantiles(){
+                
+                if(window.XMLHttpRequest){
+                    peticion_http=new XMLHttpRequest();
+                }else if(window.ActiveXObject){
+                    peticion_http=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                
+                peticion_http.onreadystatechange=muestraContenidoInfantil;
+                
+                peticion_http.open('GET','./libros.xml',true);
+                peticion_http.send(null);
+            }
+            
+            function muestraContenidoInfantil(){
+                
+                var titulo="";
+                var txt="";
+                var longitud=0;
+                
+                if(peticion_http.readyState==4){
+                    if(peticion_http.status==200){
+                        
+                        var documento_xml=peticion_http.responseXML;
+                        var x=documento_xml.getElementsByTagName("Titulo");
+                        
+                        longitud=x.length;
+                        
+                        for(var y=0;y<longitud;y++){
+                            
+                            if(x[y].parentNode.nodeName=="Infantil"){
+                                titulo=x[y].firstChild.nodeValue;
+                                txt=txt+titulo+"<br>";
+                            }
+                                                        
+                        }
+                        var txt2=txt+"<br>";
+                        document.getElementById("respuesta").innerHTML=txt2;
+                    }
+                    
+                }
+                
+            }
+            
+            function muestraAdultos(){
+                
+                if(window.XMLHttpRequest){
+                    peticion_http=new XMLHttpRequest();
+                }else if(window.ActiveXObject){
+                    peticion_http=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                
+                peticion_http.onreadystatechange=muestraContenidoAdulto;
+                
+                peticion_http.open('GET','./libros.xml',true);
+                peticion_http.send(null);
+            }
+            
+            function muestraContenidoAdulto(){
+                
+                var titulo="";
+                var txt="";
+                var longitud=0;
+                
+                if(peticion_http.readyState==4){
+                    if(peticion_http.status==200){
+                        
+                        var documento_xml=peticion_http.responseXML;
+                        var x=documento_xml.getElementsByTagName("Titulo");
+                        
+                        longitud=x.length;
+                        
+                        for(var y=0;y<longitud;y++){
+                            
+                            if(x[y].parentNode.nodeName=="Adultos"){
+                                titulo=x[y].firstChild.nodeValue;
+                                txt=txt+titulo+"<br>";
+                            }                            
+                        }
+                        var txt2=txt+"<br>";
+                        document.getElementById("respuesta").innerHTML=txt2;
+                    }
+                    
+                }
+                
+            }
+            
+            
+            
+        </script>
+        
+    </head>
+    <body>
+        
+        <h1>Leer informacion del archivo XML</h1>
+        
+        <input type="button" value="Ver todos los libros" onclick="muestraTodos()"><br><br>
+        <input type="button" value="Ver solo los libros infantiles" onclick="muestraInfantiles()"><br><br>
+        <input type="button" value="Ver solo los libros de adultos" onclick="muestraAdultos()"><br><br>
+        
+        <div id="respuesta"></div>
+                
+    </body>
+</html>
